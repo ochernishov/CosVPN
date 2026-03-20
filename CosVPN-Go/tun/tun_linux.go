@@ -17,9 +17,9 @@ import (
 	"time"
 	"unsafe"
 
-	"golang.org/x/sys/unix"
 	"github.com/ochernishov/cosvpn/conn"
 	"github.com/ochernishov/cosvpn/rwcancel"
+	"golang.org/x/sys/unix"
 )
 
 const (

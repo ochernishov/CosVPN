@@ -48,9 +48,9 @@ func (hs handshakeState) String() string {
 
 const (
 	NoiseConstruction = "Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s"
-	CosVPNIdentifier    = "CosVPN v1 CosinnDev"
-	CosVPNLabelMAC1     = "cvpn-mac"
-	CosVPNLabelCookie   = "cvpn-cok"
+	CosVPNIdentifier  = "CosVPN v1 CosinnDev"
+	CosVPNLabelMAC1   = "cvpn-mac"
+	CosVPNLabelCookie = "cvpn-cok"
 )
 
 const (

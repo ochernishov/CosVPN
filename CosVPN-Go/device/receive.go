@@ -12,10 +12,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/ochernishov/cosvpn/conn"
 	"golang.org/x/crypto/chacha20poly1305"
 	"golang.org/x/net/ipv4"
 	"golang.org/x/net/ipv6"
-	"github.com/ochernishov/cosvpn/conn"
 )
 
 type QueueHandshakeElement struct {

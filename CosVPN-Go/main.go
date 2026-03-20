@@ -14,11 +14,11 @@ import (
 	"runtime"
 	"strconv"
 
-	"golang.org/x/sys/unix"
 	"github.com/ochernishov/cosvpn/conn"
 	"github.com/ochernishov/cosvpn/device"
 	"github.com/ochernishov/cosvpn/ipc"
 	"github.com/ochernishov/cosvpn/tun"
+	"golang.org/x/sys/unix"
 )
 
 const (

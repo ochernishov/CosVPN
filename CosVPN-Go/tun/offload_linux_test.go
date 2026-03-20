@@ -9,8 +9,8 @@ import (
 	"net/netip"
 	"testing"
 
-	"golang.org/x/sys/unix"
 	"github.com/ochernishov/cosvpn/conn"
+	"golang.org/x/sys/unix"
 	"gvisor.dev/gvisor/pkg/tcpip"
 	"gvisor.dev/gvisor/pkg/tcpip/header"
 )

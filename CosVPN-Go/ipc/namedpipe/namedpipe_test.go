@@ -20,8 +20,8 @@ import (
 	"testing"
 	"time"
 
-	"golang.org/x/sys/windows"
 	"github.com/ochernishov/cosvpn/ipc/namedpipe"
+	"golang.org/x/sys/windows"
 )
 
 func randomPipePath() string {

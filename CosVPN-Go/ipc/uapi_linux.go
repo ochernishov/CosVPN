@@ -9,8 +9,8 @@ import (
 	"net"
 	"os"
 
-	"golang.org/x/sys/unix"
 	"github.com/ochernishov/cosvpn/rwcancel"
+	"golang.org/x/sys/unix"
 )
 
 type UAPIListener struct {
