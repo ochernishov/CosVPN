@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html><head><title>CosVPN Login</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="login"><h1>CosVPN</h1><input type="password" id="pwd" placeholder="Password"><button onclick="login()">Login</button><p id="err"></p></div>
+<script>
+async function login(){const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('pwd').value})});if(r.ok)location.href='/';else document.getElementById('err').textContent='Wrong password'}
+</script></body></html>
