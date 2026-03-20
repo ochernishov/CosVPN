@@ -14,6 +14,7 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/ochernishov/cosvpn/admin"
 	"github.com/ochernishov/cosvpn/conn"
 	"github.com/ochernishov/cosvpn/device"
 	"github.com/ochernishov/cosvpn/ipc"
@@ -59,6 +60,26 @@ func warning() {
 func main() {
 	if len(os.Args) == 2 && os.Args[1] == "--version" {
 		fmt.Printf("cosvpn-go v%s\n\nUserspace CosVPN daemon for %s-%s.\nBased on WireGuard by Jason A. Donenfeld.\nCopyright (C) 2026 CosinnDev.\n", Version, runtime.GOOS, runtime.GOARCH)
+		return
+	}
+
+	// Dashboard-only mode
+	if len(os.Args) == 2 && os.Args[1] == "--dashboard" {
+		password := os.Getenv("COSVPN_ADMIN_PASSWORD")
+		if password == "" {
+			fmt.Fprintln(os.Stderr, "Error: COSVPN_ADMIN_PASSWORD not set")
+			os.Exit(1)
+		}
+		port := os.Getenv("COSVPN_ADMIN_PORT")
+		if port == "" {
+			port = "8443"
+		}
+		configDir := os.Getenv("COSVPN_CONFIG_DIR")
+		if configDir == "" {
+			configDir = "/etc/wireguard"
+		}
+		fmt.Printf("CosVPN Dashboard starting on :%s\n", port)
+		admin.StartServer(":"+port, password, configDir)
 		return
 	}
 
@@ -246,6 +267,17 @@ func main() {
 	}()
 
 	logger.Verbosef("UAPI listener started")
+
+	// start admin dashboard if password is set
+	adminPassword := os.Getenv("COSVPN_ADMIN_PASSWORD")
+	if adminPassword != "" {
+		adminPort := os.Getenv("COSVPN_ADMIN_PORT")
+		if adminPort == "" {
+			adminPort = "8443"
+		}
+		go admin.StartServer(":"+adminPort, adminPassword, "/etc/wireguard")
+		logger.Verbosef("CosVPN Dashboard started on :%s", adminPort)
+	}
 
 	// wait for program to terminate
 
