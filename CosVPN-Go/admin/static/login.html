@@ -1,6 +1,180 @@
 <!DOCTYPE html>
-<html><head><title>CosVPN Login</title><link rel="stylesheet" href="style.css"></head>
-<body><div id="login"><h1>CosVPN</h1><input type="password" id="pwd" placeholder="Password"><button onclick="login()">Login</button><p id="err"></p></div>
-<script>
-async function login(){const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('pwd').value})});if(r.ok)location.href='/';else document.getElementById('err').textContent='Wrong password'}
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CosVPN Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0f;
+            color: #e2e8f0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4e;
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #06b6d4;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: #0f0f1a;
+            border: 1px solid #2a2a4e;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+
+        .btn-signin {
+            width: 100%;
+            padding: 0.875rem;
+            background: #06b6d4;
+            color: #0a0a0f;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-signin:hover {
+            background: #0891b2;
+        }
+
+        .btn-signin:active {
+            transform: scale(0.98);
+        }
+
+        .btn-signin:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            margin-top: 1.25rem;
+            padding: 0.75rem 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: #ef4444;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .error-msg.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">CosVPN</div>
+            <div class="subtitle">Admin Panel</div>
+
+            <form id="login-form" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <input type="password" id="pwd" placeholder="Enter password" autocomplete="current-password" autofocus>
+                </div>
+                <button type="submit" class="btn-signin" id="btn-signin">Sign In</button>
+            </form>
+
+            <div class="error-msg" id="error-msg"></div>
+        </div>
+    </div>
+
+    <script>
+        async function handleLogin(e) {
+            e.preventDefault();
+            var btn = document.getElementById('btn-signin');
+            var errEl = document.getElementById('error-msg');
+            var pwd = document.getElementById('pwd').value;
+
+            if (!pwd) {
+                errEl.textContent = 'Please enter a password';
+                errEl.classList.add('visible');
+                return false;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            errEl.classList.remove('visible');
+
+            try {
+                var res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd })
+                });
+
+                if (res.ok) {
+                    location.href = '/';
+                } else {
+                    var data = await res.json().catch(function() { return {}; });
+                    if (res.status === 429) {
+                        errEl.textContent = 'Too many attempts. Please wait and try again.';
+                    } else {
+                        errEl.textContent = data.error || 'Wrong password';
+                    }
+                    errEl.classList.add('visible');
+                }
+            } catch (err) {
+                errEl.textContent = 'Connection error. Please try again.';
+                errEl.classList.add('visible');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Sign In';
+            return false;
+        }
+    </script>
+</body>
+</html>
