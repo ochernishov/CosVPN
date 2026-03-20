@@ -77,7 +77,7 @@
 > Xcode project: WireGuard.xcodeproj
 > Таргеты: WireGuardmacOS, WireGuardNetworkExtension (macOS), WireGuardmacOSLoginItemHelper
 
-### Блок 2.1 — Подготовка окружения macOS
+### Блок 2.1 — Подготовка окружения macOS ✅
 
 - Убедиться в наличии Xcode 15+ с Command Line Tools
 - Открыть WireGuard.xcodeproj и проверить, что проект компилируется без изменений
@@ -85,7 +85,7 @@
 - Проверить, что Network Extension entitlement доступен в профиле разработчика
 - Зафиксировать baseline: проект собирается для macOS таргета
 
-### Блок 2.2 — Ребрендинг: идентификаторы macOS
+### Блок 2.2 — Ребрендинг: идентификаторы macOS ✅
 
 - Изменить PRODUCT_NAME для macOS таргета (WireGuard -> CosVPN) в pbxproj
 - Изменить APP_ID_MACOS build setting (com.wireguard.macos -> com.cosinn.vpn.macos)
@@ -99,14 +99,14 @@
 - Обновить Localizable.strings для macOS (если есть упоминания WireGuard в UI-строках)
 - Переименовать WireGuard.xcodeproj -> CosVPN.xcodeproj (опционально, может сломать ссылки)
 
-### Блок 2.3 — Ребрендинг: иконки macOS
+### Блок 2.3 — Ребрендинг: иконки macOS ✅
 
 - Создать AppIcon для macOS (Assets.xcassets/AppIcon.appiconset) -- все размеры (16-1024px)
 - Обновить StatusBar иконки (StatusBarIcon, StatusBarIconDimmed, StatusBarIconDot1-3)
 - Обновить StatusCircleYellow если используется в UI
 - Создать иконку в стиле CosVPN (согласовать с Android-иконкой)
 
-### Блок 2.4 — Подключение к серверу и тестирование macOS
+### Блок 2.4 — Подключение к серверу и тестирование macOS ✅
 
 - Создать нового клиента на сервере для macOS через add-client.sh
 - Собрать приложение через Xcode (Product -> Build)
@@ -118,7 +118,7 @@
 - Проверить auto-connect и login item helper
 - Проверить логи через встроенный log viewer
 
-### Блок 2.5 — Финализация macOS
+### Блок 2.5 — Финализация macOS ✅
 
 - Настроить code signing для distribution
 - Собрать .app bundle для распространения

@@ -1,99 +1,114 @@
-# [WireGuard](https://www.wireguard.com/) for iOS and macOS
+# CosVPN for macOS (and iOS)
 
-This project contains an application for iOS and for macOS, as well as many components shared between the two of them. You may toggle between the two platforms by selecting the target from within Xcode.
+VPN-клиент для macOS, основанный на WireGuard протоколе. Ребрендинг оригинального wireguard-apple.
 
-## Building
+## Требования
 
-- Clone this repo:
+- **macOS 12.0+** (deployment target)
+- **Xcode 15+** с Command Line Tools
+- **Go 1.19+** (для компиляции wireguard-go bridge)
+- **SwiftLint** (для проверки стиля кода)
 
-```
-$ git clone https://git.zx2c4.com/wireguard-apple
-$ cd wireguard-apple
-```
+## Установка зависимостей
 
-- Rename and populate developer team ID file:
-
-```
-$ cp Sources/WireGuardApp/Config/Developer.xcconfig.template Sources/WireGuardApp/Config/Developer.xcconfig
-$ vim Sources/WireGuardApp/Config/Developer.xcconfig
+```bash
+brew install swiftlint go
 ```
 
-- Install swiftlint and go 1.19:
-
-```
-$ brew install swiftlint go
-```
-
-- Open project in Xcode:
-
-```
-$ open WireGuard.xcodeproj
+Или установка Go вручную:
+```bash
+curl -L -o /tmp/go.tar.gz "https://go.dev/dl/go1.24.1.darwin-arm64.tar.gz"
+mkdir -p ~/go-sdk && tar -C ~/go-sdk -xzf /tmp/go.tar.gz
+export PATH="$HOME/go-sdk/go/bin:$PATH"
 ```
 
-- Flip switches, press buttons, and make whirling noises until Xcode builds it.
+## Настройка Developer.xcconfig
 
-## WireGuardKit integration
+Скопируйте шаблон и заполните данные:
 
-1. Open your Xcode project and add the Swift package with the following URL:
-   
-   ```
-   https://git.zx2c4.com/wireguard-apple
-   ```
-   
-2. `WireGuardKit` links against `wireguard-go-bridge` library, but it cannot build it automatically
-   due to Swift package manager limitations. So it needs a little help from a developer. 
-   Please follow the instructions below to create a build target(s) for `wireguard-go-bridge`.
-   
-   - In Xcode, click File -> New -> Target. Switch to "Other" tab and choose "External Build 
-     System".
-   - Type in `WireGuardGoBridge<PLATFORM>` under the "Product name", replacing the `<PLATFORM>` 
-     placeholder with the name of the platform. For example, when targeting macOS use `macOS`, or 
-     when targeting iOS use `iOS`.
-     Make sure the build tool is set to: `/usr/bin/make` (default).
-   - In the appeared "Info" tab of a newly created target, type in the "Directory" path under 
-     the "External Build Tool Configuration":
-     
-     ```
-     ${BUILD_DIR%Build/*}SourcePackages/checkouts/wireguard-apple/Sources/WireGuardKitGo
-     ```
-     
-   - Switch to "Build Settings" and find `SDKROOT`.
-     Type in `macosx` if you target macOS, or type in `iphoneos` if you target iOS.
-   
-3. Go to Xcode project settings and locate your network extension target and switch to 
-   "Build Phases" tab.
-   
-   - Locate "Dependencies" section and hit "+" to add `WireGuardGoBridge<PLATFORM>` replacing 
-     the `<PLATFORM>` placeholder with the name of platform matching the network extension 
-     deployment target (i.e macOS or iOS).
-     
-   - Locate the "Link with binary libraries" section and hit "+" to add `WireGuardKit`.
-   
-4. In Xcode project settings, locate your main bundle app and switch to "Build Phases" tab. 
-   Locate the "Link with binary libraries" section and hit "+" to add `WireGuardKit`.
-   
-5. iOS only: Locate Bitcode settings under your application target, Build settings -> Enable Bitcode, 
-   change the corresponding value to "No".
-   
-Note that if you ship your app for both iOS and macOS, make sure to repeat the steps 2-4 twice, 
-once per platform.
+```bash
+cp Sources/WireGuardApp/Config/Developer.xcconfig.template Sources/WireGuardApp/Config/Developer.xcconfig
+```
 
-## MIT License
+Заполните:
+```
+DEVELOPMENT_TEAM = <ваш Apple Team ID>
+APP_ID_IOS = com.wireguard.ios
+APP_ID_MACOS = com.cosinn.vpn.macos
+```
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
+**Важно:** Для работы Network Extension необходим Apple Developer account с Network Extension capability.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## Сборка
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+### Через Xcode
+
+```bash
+open WireGuard.xcodeproj
+```
+
+Выберите scheme **WireGuardmacOS** и нажмите **Product -> Build** (Cmd+B).
+
+### Через командную строку
+
+```bash
+export PATH="$HOME/go-sdk/go/bin:$PATH"  # если Go установлен вручную
+
+# Debug сборка (без подписи, для разработки)
+xcodebuild -project WireGuard.xcodeproj \
+  -scheme WireGuardmacOS \
+  -configuration Debug build \
+  CODE_SIGN_IDENTITY="" \
+  CODE_SIGNING_REQUIRED=NO \
+  CODE_SIGNING_ALLOWED=NO \
+  ONLY_ACTIVE_ARCH=YES
+
+# Release сборка (с подписью, DEVELOPMENT_TEAM должен быть заполнен)
+xcodebuild -project WireGuard.xcodeproj \
+  -scheme WireGuardmacOS \
+  -configuration Release build
+```
+
+## Ребрендинг
+
+Проект ребрендирован с WireGuard на CosVPN:
+
+| Параметр | Было | Стало |
+|----------|------|-------|
+| Product Name | WireGuard | CosVPN |
+| Bundle ID | com.wireguard.macos | com.cosinn.vpn.macos |
+| Network Extension | com.wireguard.macos.network-extension | com.cosinn.vpn.macos.network-extension |
+| Login Item Helper | com.wireguard.macos.login-item-helper | com.cosinn.vpn.macos.login-item-helper |
+| Copyright | WireGuard LLC | CosinnDev |
+
+### Изменённые файлы
+
+- `Sources/WireGuardApp/Config/Developer.xcconfig` -- bundle ID
+- `WireGuard.xcodeproj/project.pbxproj` -- PRODUCT_NAME
+- `Sources/WireGuardApp/UI/macOS/Info.plist` -- copyright, NSPrincipalClass, custom keys
+- `Sources/WireGuardApp/UI/macOS/LoginItemHelper/Info.plist` -- copyright, custom keys
+- `Sources/WireGuardApp/UI/macOS/LoginItemHelper/main.m` -- plist key references
+- `Sources/Shared/FileManager+Extension.swift` -- plist key reference
+- `Sources/WireGuardApp/Base.lproj/Localizable.strings` -- UI strings (English)
+- `Sources/WireGuardApp/ru.lproj/Localizable.strings` -- UI strings (Russian)
+- `Sources/WireGuardApp/UI/macOS/Assets.xcassets/AppIcon.appiconset/` -- app icons
+- `Sources/WireGuardApp/UI/macOS/Assets.xcassets/StatusBarIcon*.imageset/` -- status bar icons
+- `Sources/WireGuardKitC/WireGuardKitC.h` -- compatibility fix for macOS 26 SDK
+
+## VPN-сервер для тестирования
+
+```
+Server: 72.56.26.254:51820
+Config: test-configs/cosvpn-macos-test1.conf
+```
+
+## Структура таргетов
+
+- **WireGuardmacOS** -- основное macOS приложение (CosVPN.app)
+- **WireGuardNetworkExtensionmacOS** -- Network Extension (CosVPNNetworkExtension.appex)
+- **WireGuardGoBridgemacOS** -- Go bridge для wireguard-go
+- **WireGuardmacOSLoginItemHelper** -- Login Item Helper (CosVPNLoginItemHelper.app)
+
+## Лицензия
+
+MIT License. Оригинальный проект: [wireguard-apple](https://git.zx2c4.com/wireguard-apple).

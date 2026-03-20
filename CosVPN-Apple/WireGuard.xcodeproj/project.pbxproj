@@ -1594,7 +1594,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				INFOPLIST_FILE = Sources/WireGuardApp/UI/macOS/LoginItemHelper/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_MACOS).login-item-helper";
-				PRODUCT_NAME = WireGuardLoginItemHelper;
+				PRODUCT_NAME = CosVPNLoginItemHelper;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
@@ -1607,7 +1607,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				INFOPLIST_FILE = Sources/WireGuardApp/UI/macOS/LoginItemHelper/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_MACOS).login-item-helper";
-				PRODUCT_NAME = WireGuardLoginItemHelper;
+				PRODUCT_NAME = CosVPNLoginItemHelper;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
@@ -1628,7 +1628,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_MACOS)";
-				PRODUCT_NAME = WireGuard;
+				PRODUCT_NAME = CosVPN;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1649,7 +1649,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_MACOS)";
-				PRODUCT_NAME = WireGuard;
+				PRODUCT_NAME = CosVPN;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1670,7 +1670,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_MACOS).network-extension";
-				PRODUCT_NAME = WireGuardNetworkExtension;
+				PRODUCT_NAME = CosVPNNetworkExtension;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/WireGuardNetworkExtension/WireGuardNetworkExtension-Bridging-Header.h";
@@ -1693,7 +1693,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_ID_MACOS).network-extension";
-				PRODUCT_NAME = WireGuardNetworkExtension;
+				PRODUCT_NAME = CosVPNNetworkExtension;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/WireGuardNetworkExtension/WireGuardNetworkExtension-Bridging-Header.h";

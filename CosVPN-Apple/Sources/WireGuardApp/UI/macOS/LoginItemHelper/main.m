@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
-// Copyright © 2018-2023 WireGuard LLC. All Rights Reserved.
+// Copyright © 2024-2026 CosinnDev. All Rights Reserved.
 
 #import <Cocoa/Cocoa.h>
 
 int main(int argc, char *argv[])
 {
-    NSString *appId = [NSBundle.mainBundle objectForInfoDictionaryKey:@"com.wireguard.macos.app_id"];
-    NSString *appGroupId = [NSBundle.mainBundle objectForInfoDictionaryKey:@"com.wireguard.macos.app_group_id"];
+    NSString *appId = [NSBundle.mainBundle objectForInfoDictionaryKey:@"com.cosinn.vpn.macos.app_id"];
+    NSString *appGroupId = [NSBundle.mainBundle objectForInfoDictionaryKey:@"com.cosinn.vpn.macos.app_group_id"];
     if (!appId || !appGroupId)
         return 1;
     NSURL *containerUrl = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:appGroupId];

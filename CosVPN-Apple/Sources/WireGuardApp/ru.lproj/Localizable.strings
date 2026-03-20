@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright © 2018-2023 WireGuard LLC. All Rights Reserved.
+// Copyright © 2024-2026 CosinnDev. All Rights Reserved.
 // Generic alert action names
 
 
@@ -9,7 +9,7 @@
 
 // Tunnels list UI
 
-"tunnelsListTitle" = "WireGuard";
+"tunnelsListTitle" = "CosVPN";
 "tunnelsListSettingsButtonTitle" = "Настройки";
 "tunnelsListCenteredAddTunnelButtonTitle" = "Добавить туннель";
 "tunnelsListSwipeDeleteButtonTitle" = "Удалить";
@@ -20,7 +20,7 @@
 
 // Tunnels list menu
 
-"addTunnelMenuHeader" = "Добавить новый туннель WireGuard";
+"addTunnelMenuHeader" = "Добавить новый туннель CosVPN";
 "addTunnelMenuImportFile" = "Создать из файла или архива";
 "addTunnelMenuQRCode" = "Создать из QR-кода";
 "addTunnelMenuFromScratch" = "Создать с нуля";
@@ -34,7 +34,7 @@
 "alertImportedFromZipMessage (%1$d of %2$d)" = "Создано туннелей из zip-архива: %1$d из %2$d";
 
 "alertBadConfigImportTitle" = "Не удалось импортировать туннель";
-"alertBadConfigImportMessage (%@)" = "Файл ‘%@’ не содержит корректной конфигурации WireGuard";
+"alertBadConfigImportMessage (%@)" = "Файл ‘%@’ не содержит корректной конфигурации CosVPN";
 
 "deleteTunnelsConfirmationAlertButtonTitle" = "Удалить";
 "deleteTunnelConfirmationAlertButtonMessage (%d)" = "Удалить выбранный туннель?";
@@ -203,7 +203,7 @@
 "settingsViewTitle" = "Настройки";
 
 "settingsSectionTitleAbout" = "О программе";
-"settingsVersionKeyWireGuardForIOS" = "WireGuard для iOS";
+"settingsVersionKeyWireGuardForIOS" = "CosVPN для iOS";
 "settingsVersionKeyWireGuardGoBackend" = "Бэкенд WireGuard";
 
 "settingsSectionTitleExportConfigurations" = "Экспорт конфигураций";
@@ -294,16 +294,16 @@
 "macMenuNetworks (%@)" = "Сети: %@";
 "macMenuNetworksNone" = "Сети отсутствуют";
 
-"macMenuTitle" = "WireGuard";
+"macMenuTitle" = "CosVPN";
 "macMenuManageTunnels" = "Управление туннелями";
 "macMenuImportTunnels" = "Импорт туннелей из файла…";
 "macMenuAddEmptyTunnel" = "Добавить пустой туннель…";
 "macMenuViewLog" = "Просмотреть журнал";
 "macMenuExportTunnels" = "Экспорт туннелей в zip-архив…";
-"macMenuAbout" = "О WireGuard";
-"macMenuQuit" = "Выйти из WireGuard";
+"macMenuAbout" = "О CosVPN";
+"macMenuQuit" = "Выйти из CosVPN";
 
-"macMenuHideApp" = "Скрыть WireGuard";
+"macMenuHideApp" = "Скрыть CosVPN";
 "macMenuHideOtherApps" = "Скрыть другие";
 "macMenuShowAllApps" = "Показать всё";
 
@@ -327,7 +327,7 @@
 
 // Mac manage tunnels window
 
-"macWindowTitleManageTunnels" = "Управлять туннелями WireGuard";
+"macWindowTitleManageTunnels" = "Управление туннелями CosVPN";
 
 "macDeleteTunnelConfirmationAlertMessage (%@)" = "Вы уверены, что хотите удалить ‘%@’?";
 "macDeleteMultipleTunnelsConfirmationAlertMessage (%d)" = "Вы уверены, что хотите удалить выбранные туннели?";
@@ -405,13 +405,13 @@
 
 // Mac alert
 
-"macConfirmAndQuitAlertMessage" = "Вы хотите закрыть менеджер туннелей или полностью выйти из WireGuard?";
-"macConfirmAndQuitAlertInfo" = "Если вы закроете менеджер туннелей, WireGuard будет по-прежнему доступен из значка в строке меню.";
-"macConfirmAndQuitInfoWithActiveTunnel (%@)" = "Если вы закроете менеджер туннелей, WireGuard будет по-прежнему доступен из значка в строке меню.\n\nОбратите внимание, что если вы выйдете из WireGuard полностью, текущий активный туннель (’%@’) будет оставаться активным до тех пор, пока вы не отключите его из этого приложения или через панель «Сеть» в Системных настройках.";
-"macConfirmAndQuitAlertQuitWireGuard" = "Выйти из WireGuard";
+"macConfirmAndQuitAlertMessage" = "Вы хотите закрыть менеджер туннелей или полностью выйти из CosVPN?";
+"macConfirmAndQuitAlertInfo" = "Если вы закроете менеджер туннелей, CosVPN будет по-прежнему доступен из значка в строке меню.";
+"macConfirmAndQuitInfoWithActiveTunnel (%@)" = "Если вы закроете менеджер туннелей, CosVPN будет по-прежнему доступен из значка в строке меню.\n\nОбратите внимание, что если вы выйдете из CosVPN полностью, текущий активный туннель (’%@’) будет оставаться активным до тех пор, пока вы не отключите его из этого приложения или через панель «Сеть» в Системных настройках.";
+"macConfirmAndQuitAlertQuitWireGuard" = "Выйти из CosVPN";
 "macConfirmAndQuitAlertCloseWindow" = "Закрыть менеджер туннелей";
 
-"macAppExitingWithActiveTunnelMessage" = "Выход из WireGuard с активным туннелем";
+"macAppExitingWithActiveTunnelMessage" = "Выход из CosVPN с активным туннелем";
 "macAppExitingWithActiveTunnelInfo" = "После выхода туннель будет оставаться подключенным. Вы можете отключить его повторно открыв это приложение или через панель \"Сеть\" в Системных настройках.";
 
 // Mac tooltip
@@ -434,11 +434,11 @@
 
 // Mac App Store updating alert
 
-"macAppStoreUpdatingAlertMessage" = "App Store хотел бы обновить WireGuard";
+"macAppStoreUpdatingAlertMessage" = "App Store хотел бы обновить CosVPN";
 "macAppStoreUpdatingAlertInfoWithOnDemand (%@)" = "Пожалуйста, отключите автоподключение туннеля ‘%@’, а затем продолжите обновление в App Store.";
 "macAppStoreUpdatingAlertInfoWithoutOnDemand (%@)" = "Пожалуйста, отключите туннель ‘%@’ и затем продолжите обновление в App Store.";
 
 // Donation
 
-"donateLink" = "♥ Пожертвовать проекту WireGuard";
+"donateLink" = "♥ Пожертвовать проекту CosVPN";
 "macTunnelsMenuTitle" = "Tunnels";
