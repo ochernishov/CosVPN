@@ -2,12 +2,12 @@
 
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
 
-import "golang.zx2c4.com/wireguard/conn"
+import "github.com/ochernishov/cosvpn/conn"
 
 const (
 	QueueStagedSize            = conn.IdealBatchSize

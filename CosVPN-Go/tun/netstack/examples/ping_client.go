@@ -2,7 +2,7 @@
 
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package main
@@ -17,9 +17,9 @@ import (
 	"golang.org/x/net/icmp"
 	"golang.org/x/net/ipv4"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/device"
-	"golang.zx2c4.com/wireguard/tun/netstack"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/device"
+	"github.com/ochernishov/cosvpn/tun/netstack"
 )
 
 func main() {

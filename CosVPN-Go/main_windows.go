@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package main
@@ -12,11 +12,11 @@ import (
 
 	"golang.org/x/sys/windows"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/device"
-	"golang.zx2c4.com/wireguard/ipc"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/device"
+	"github.com/ochernishov/cosvpn/ipc"
 
-	"golang.zx2c4.com/wireguard/tun"
+	"github.com/ochernishov/cosvpn/tun"
 )
 
 const (
@@ -30,13 +30,13 @@ func main() {
 	}
 	interfaceName := os.Args[1]
 
-	fmt.Fprintln(os.Stderr, "Warning: this is a test program for Windows, mainly used for debugging this Go package. For a real WireGuard for Windows client, the repo you want is <https://git.zx2c4.com/wireguard-windows/>, which includes this code as a module.")
+	fmt.Fprintln(os.Stderr, "Warning: this is a test program for Windows, mainly used for debugging this Go package. For a real CosVPN for Windows client, see https://github.com/ochernishov/cosvpn.")
 
 	logger := device.NewLogger(
 		device.LogLevelVerbose,
 		fmt.Sprintf("(%s) ", interfaceName),
 	)
-	logger.Verbosef("Starting wireguard-go version %s", Version)
+	logger.Verbosef("Starting cosvpn-go version %s", Version)
 
 	tun, err := tun.CreateTUN(interfaceName, 0)
 	if err == nil {

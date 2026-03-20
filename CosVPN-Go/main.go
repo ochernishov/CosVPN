@@ -2,7 +2,7 @@
 
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package main
@@ -15,10 +15,10 @@ import (
 	"strconv"
 
 	"golang.org/x/sys/unix"
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/device"
-	"golang.zx2c4.com/wireguard/ipc"
-	"golang.zx2c4.com/wireguard/tun"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/device"
+	"github.com/ochernishov/cosvpn/ipc"
+	"github.com/ochernishov/cosvpn/tun"
 )
 
 const (
@@ -27,9 +27,9 @@ const (
 )
 
 const (
-	ENV_WG_TUN_FD             = "WG_TUN_FD"
-	ENV_WG_UAPI_FD            = "WG_UAPI_FD"
-	ENV_WG_PROCESS_FOREGROUND = "WG_PROCESS_FOREGROUND"
+	ENV_COSVPN_TUN_FD             = "COSVPN_TUN_FD"
+	ENV_COSVPN_UAPI_FD            = "COSVPN_UAPI_FD"
+	ENV_COSVPN_PROCESS_FOREGROUND = "COSVPN_PROCESS_FOREGROUND"
 )
 
 func printUsage() {
@@ -39,7 +39,7 @@ func printUsage() {
 func warning() {
 	switch runtime.GOOS {
 	case "linux", "freebsd", "openbsd":
-		if os.Getenv(ENV_WG_PROCESS_FOREGROUND) == "1" {
+		if os.Getenv(ENV_COSVPN_PROCESS_FOREGROUND) == "1" {
 			return
 		}
 	default:
@@ -48,18 +48,17 @@ func warning() {
 
 	fmt.Fprintln(os.Stderr, "┌──────────────────────────────────────────────────────┐")
 	fmt.Fprintln(os.Stderr, "│                                                      │")
-	fmt.Fprintln(os.Stderr, "│   Running wireguard-go is not required because this  │")
-	fmt.Fprintln(os.Stderr, "│   kernel has first class support for WireGuard. For  │")
+	fmt.Fprintln(os.Stderr, "│   Running cosvpn-go is not required because this     │")
+	fmt.Fprintln(os.Stderr, "│   kernel has first class support for CosVPN. For     │")
 	fmt.Fprintln(os.Stderr, "│   information on installing the kernel module,       │")
-	fmt.Fprintln(os.Stderr, "│   please visit:                                      │")
-	fmt.Fprintln(os.Stderr, "│         https://www.wireguard.com/install/           │")
+	fmt.Fprintln(os.Stderr, "│   please visit: https://github.com/ochernishov/cosvpn│")
 	fmt.Fprintln(os.Stderr, "│                                                      │")
 	fmt.Fprintln(os.Stderr, "└──────────────────────────────────────────────────────┘")
 }
 
 func main() {
 	if len(os.Args) == 2 && os.Args[1] == "--version" {
-		fmt.Printf("wireguard-go v%s\n\nUserspace WireGuard daemon for %s-%s.\nInformation available at https://www.wireguard.com.\nCopyright (C) Jason A. Donenfeld <Jason@zx2c4.com>.\n", Version, runtime.GOOS, runtime.GOARCH)
+		fmt.Printf("cosvpn-go v%s\n\nUserspace CosVPN daemon for %s-%s.\nBased on WireGuard by Jason A. Donenfeld.\nCopyright (C) 2026 CosinnDev.\n", Version, runtime.GOOS, runtime.GOARCH)
 		return
 	}
 
@@ -92,7 +91,7 @@ func main() {
 	}
 
 	if !foreground {
-		foreground = os.Getenv(ENV_WG_PROCESS_FOREGROUND) == "1"
+		foreground = os.Getenv(ENV_COSVPN_PROCESS_FOREGROUND) == "1"
 	}
 
 	// get log level (default: info)
@@ -112,7 +111,7 @@ func main() {
 	// open TUN device (or use supplied fd)
 
 	tdev, err := func() (tun.Device, error) {
-		tunFdStr := os.Getenv(ENV_WG_TUN_FD)
+		tunFdStr := os.Getenv(ENV_COSVPN_TUN_FD)
 		if tunFdStr == "" {
 			return tun.CreateTUN(interfaceName, device.DefaultMTU)
 		}
@@ -145,7 +144,7 @@ func main() {
 		fmt.Sprintf("(%s) ", interfaceName),
 	)
 
-	logger.Verbosef("Starting wireguard-go version %s", Version)
+	logger.Verbosef("Starting cosvpn-go version %s", Version)
 
 	if err != nil {
 		logger.Errorf("Failed to create TUN device: %v", err)
@@ -155,7 +154,7 @@ func main() {
 	// open UAPI file (or use supplied fd)
 
 	fileUAPI, err := func() (*os.File, error) {
-		uapiFdStr := os.Getenv(ENV_WG_UAPI_FD)
+		uapiFdStr := os.Getenv(ENV_COSVPN_UAPI_FD)
 		if uapiFdStr == "" {
 			return ipc.UAPIOpen(interfaceName)
 		}
@@ -178,9 +177,9 @@ func main() {
 
 	if !foreground {
 		env := os.Environ()
-		env = append(env, fmt.Sprintf("%s=3", ENV_WG_TUN_FD))
-		env = append(env, fmt.Sprintf("%s=4", ENV_WG_UAPI_FD))
-		env = append(env, fmt.Sprintf("%s=1", ENV_WG_PROCESS_FOREGROUND))
+		env = append(env, fmt.Sprintf("%s=3", ENV_COSVPN_TUN_FD))
+		env = append(env, fmt.Sprintf("%s=4", ENV_COSVPN_UAPI_FD))
+		env = append(env, fmt.Sprintf("%s=1", ENV_COSVPN_PROCESS_FOREGROUND))
 		files := [3]*os.File{}
 		if os.Getenv("LOG_LEVEL") != "" && logLevel != device.LogLevelSilent {
 			files[0], _ = os.Open(os.DevNull)

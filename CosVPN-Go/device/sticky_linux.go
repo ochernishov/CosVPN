@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  *
  * This implements userspace semantics of "sticky sockets", modeled after
- * WireGuard's kernelspace implementation. This is more or less a straight port
+ * CosVPN's kernelspace implementation. This is more or less a straight port
  * of the sticky-sockets.c example code:
- * https://git.zx2c4.com/WireGuard/tree/contrib/examples/sticky-sockets/sticky-sockets.c
+ * https://git.zx2c4.com/wireguard/tree/contrib/examples/sticky-sockets/sticky-sockets.c (original WireGuard)
  *
  * Currently there is no way to achieve this within the net package:
  * See e.g. https://github.com/golang/go/issues/17930
@@ -20,8 +20,8 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/rwcancel"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/rwcancel"
 )
 
 func (device *Device) startRouteListener(bind conn.Bind) (*rwcancel.RWCancel, error) {

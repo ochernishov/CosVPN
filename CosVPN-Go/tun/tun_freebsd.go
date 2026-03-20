@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package tun
@@ -210,7 +210,7 @@ func CreateTUN(name string, mtu int) (Device, error) {
 		return nil, fmt.Errorf("unable to put into IFF_BROADCAST mode: %w", errno)
 	}
 
-	// Disable link-local v6, not just because WireGuard doesn't do that anyway, but
+	// Disable link-local v6, not just because CosVPN doesn't do that anyway, but
 	// also because there are serious races with attaching and detaching LLv6 addresses
 	// in relation to interface lifetime within the FreeBSD kernel.
 	confd6, err := unix.Socket(unix.AF_INET6, unix.SOCK_DGRAM|unix.SOCK_CLOEXEC, 0)

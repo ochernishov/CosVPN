@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"golang.zx2c4.com/wireguard/ipc"
+	"github.com/ochernishov/cosvpn/ipc"
 )
 
 type IPCError struct {
@@ -46,8 +46,8 @@ var byteBufferPool = &sync.Pool{
 	New: func() any { return new(bytes.Buffer) },
 }
 
-// IpcGetOperation implements the WireGuard configuration protocol "get" operation.
-// See https://www.wireguard.com/xplatform/#configuration-protocol for details.
+// IpcGetOperation implements the CosVPN configuration protocol "get" operation.
+// See https://github.com/ochernishov/cosvpn for details. for details.
 func (device *Device) IpcGetOperation(w io.Writer) error {
 	device.ipcMutex.RLock()
 	defer device.ipcMutex.RUnlock()
@@ -135,8 +135,8 @@ func (device *Device) IpcGetOperation(w io.Writer) error {
 	return nil
 }
 
-// IpcSetOperation implements the WireGuard configuration protocol "set" operation.
-// See https://www.wireguard.com/xplatform/#configuration-protocol for details.
+// IpcSetOperation implements the CosVPN configuration protocol "set" operation.
+// See https://github.com/ochernishov/cosvpn for details. for details.
 func (device *Device) IpcSetOperation(r io.Reader) (err error) {
 	device.ipcMutex.Lock()
 	defer device.ipcMutex.Unlock()

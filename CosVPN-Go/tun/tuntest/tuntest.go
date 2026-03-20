@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package tuntest
@@ -11,7 +11,7 @@ import (
 	"net/netip"
 	"os"
 
-	"golang.zx2c4.com/wireguard/tun"
+	"github.com/ochernishov/cosvpn/tun"
 )
 
 func Ping(dst, src netip.Addr) []byte {
@@ -121,7 +121,7 @@ func (t *chTun) Read(packets [][]byte, sizes []int, offset int) (int, error) {
 	}
 }
 
-// Write is called by the wireguard device to deliver a packet for routing.
+// Write is called by the cosvpn device to deliver a packet for routing.
 func (t *chTun) Write(packets [][]byte, offset int) (int, error) {
 	if offset == -1 {
 		close(t.c.closed)

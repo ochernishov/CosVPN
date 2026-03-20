@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
-// Package conn implements WireGuard's network connections.
+// Package conn implements CosVPN's network connections.
 package conn
 
 import (
@@ -58,14 +58,14 @@ type Bind interface {
 }
 
 // BindSocketToInterface is implemented by Bind objects that support being
-// tied to a single network interface. Used by wireguard-windows.
+// tied to a single network interface. Used by cosvpn-windows.
 type BindSocketToInterface interface {
 	BindSocketToInterface4(interfaceIndex uint32, blackhole bool) error
 	BindSocketToInterface6(interfaceIndex uint32, blackhole bool) error
 }
 
 // PeekLookAtSocketFd is implemented by Bind objects that support having their
-// file descriptor peeked at. Used by wireguard-android.
+// file descriptor peeked at. Used by cosvpn-android.
 type PeekLookAtSocketFd interface {
 	PeekLookAtSocketFd4() (fd int, err error)
 	PeekLookAtSocketFd6() (fd int, err error)

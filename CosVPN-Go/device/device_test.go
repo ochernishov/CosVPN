@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
@@ -20,10 +20,10 @@ import (
 	"testing"
 	"time"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/conn/bindtest"
-	"golang.zx2c4.com/wireguard/tun"
-	"golang.zx2c4.com/wireguard/tun/tuntest"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/conn/bindtest"
+	"github.com/ochernishov/cosvpn/tun"
+	"github.com/ochernishov/cosvpn/tun/tuntest"
 )
 
 // uapiCfg returns a string that contains cfg formatted use with IpcSet.

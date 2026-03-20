@@ -2,7 +2,7 @@
 
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package ipc
@@ -25,8 +25,8 @@ const (
 )
 
 // socketDirectory is variable because it is modified by a linker
-// flag in wireguard-android.
-var socketDirectory = "/var/run/wireguard"
+// flag in cosvpn-android.
+var socketDirectory = "/var/run/cosvpn"
 
 func sockPath(iface string) string {
 	return fmt.Sprintf("%s/%s.sock", socketDirectory, iface)

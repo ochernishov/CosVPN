@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package netstack
@@ -22,7 +22,7 @@ import (
 	"syscall"
 	"time"
 
-	"golang.zx2c4.com/wireguard/tun"
+	"github.com/ochernishov/cosvpn/tun"
 
 	"golang.org/x/net/dns/dnsmessage"
 	"gvisor.dev/gvisor/pkg/buffer"

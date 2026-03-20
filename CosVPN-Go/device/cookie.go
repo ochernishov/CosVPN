@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
@@ -49,7 +49,7 @@ func (st *CookieChecker) Init(pk NoisePublicKey) {
 
 	func() {
 		hash, _ := blake2s.New256(nil)
-		hash.Write([]byte(WGLabelMAC1))
+		hash.Write([]byte(CosVPNLabelMAC1))
 		hash.Write(pk[:])
 		hash.Sum(st.mac1.key[:0])
 	}()
@@ -58,7 +58,7 @@ func (st *CookieChecker) Init(pk NoisePublicKey) {
 
 	func() {
 		hash, _ := blake2s.New256(nil)
-		hash.Write([]byte(WGLabelCookie))
+		hash.Write([]byte(CosVPNLabelCookie))
 		hash.Write(pk[:])
 		hash.Sum(st.mac2.encryptionKey[:0])
 	}()
@@ -176,14 +176,14 @@ func (st *CookieGenerator) Init(pk NoisePublicKey) {
 
 	func() {
 		hash, _ := blake2s.New256(nil)
-		hash.Write([]byte(WGLabelMAC1))
+		hash.Write([]byte(CosVPNLabelMAC1))
 		hash.Write(pk[:])
 		hash.Sum(st.mac1.key[:0])
 	}()
 
 	func() {
 		hash, _ := blake2s.New256(nil)
-		hash.Write([]byte(WGLabelCookie))
+		hash.Write([]byte(CosVPNLabelCookie))
 		hash.Write(pk[:])
 		hash.Sum(st.mac2.encryptionKey[:0])
 	}()

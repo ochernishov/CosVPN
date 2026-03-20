@@ -1,4 +1,4 @@
-module golang.zx2c4.com/wireguard
+module github.com/ochernishov/cosvpn
 
 go 1.23.1
 

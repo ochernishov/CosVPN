@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
@@ -11,10 +11,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/ratelimiter"
-	"golang.zx2c4.com/wireguard/rwcancel"
-	"golang.zx2c4.com/wireguard/tun"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/ratelimiter"
+	"github.com/ochernishov/cosvpn/rwcancel"
+	"github.com/ochernishov/cosvpn/tun"
 )
 
 type Device struct {

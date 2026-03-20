@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  *
  * This is based heavily on timers.c from the kernel implementation.
  */
@@ -16,7 +16,7 @@ import (
 //go:linkname fastrandn runtime.fastrandn
 func fastrandn(n uint32) uint32
 
-// A Timer manages time-based aspects of the WireGuard protocol.
+// A Timer manages time-based aspects of the CosVPN protocol.
 // Timer roughly copies the interface of the Linux kernel's struct timer_list.
 type Timer struct {
 	*time.Timer

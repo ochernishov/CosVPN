@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package tun
@@ -18,8 +18,8 @@ import (
 	"unsafe"
 
 	"golang.org/x/sys/unix"
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/rwcancel"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/rwcancel"
 )
 
 const (

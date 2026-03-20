@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package ipc
@@ -10,7 +10,7 @@ import (
 	"os"
 
 	"golang.org/x/sys/unix"
-	"golang.zx2c4.com/wireguard/rwcancel"
+	"github.com/ochernishov/cosvpn/rwcancel"
 )
 
 type UAPIListener struct {

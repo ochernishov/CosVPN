@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
@@ -16,7 +16,7 @@ import (
 	"golang.org/x/crypto/chacha20poly1305"
 	"golang.org/x/crypto/poly1305"
 
-	"golang.zx2c4.com/wireguard/tai64n"
+	"github.com/ochernishov/cosvpn/tai64n"
 )
 
 type handshakeState int
@@ -48,9 +48,9 @@ func (hs handshakeState) String() string {
 
 const (
 	NoiseConstruction = "Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s"
-	WGIdentifier      = "WireGuard v1 zx2c4 Jason@zx2c4.com"
-	WGLabelMAC1       = "mac1----"
-	WGLabelCookie     = "cookie--"
+	CosVPNIdentifier    = "CosVPN v1 CosinnDev"
+	CosVPNLabelMAC1     = "cvpn-mac"
+	CosVPNLabelCookie   = "cvpn-cok"
 )
 
 const (
@@ -264,7 +264,7 @@ func (h *Handshake) mixKey(data []byte) {
  */
 func init() {
 	InitialChainKey = blake2s.Sum256([]byte(NoiseConstruction))
-	mixHash(&InitialHash, &InitialChainKey, []byte(WGIdentifier))
+	mixHash(&InitialHash, &InitialChainKey, []byte(CosVPNIdentifier))
 }
 
 func (device *Device) CreateMessageInitiation(peer *Peer) (*MessageInitiation, error) {

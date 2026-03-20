@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package tai64n
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-// Test that timestamps are monotonic as required by Wireguard and that
+// Test that timestamps are monotonic as required by CosVPN and that
 // nanosecond-level information is whitened to prevent side channel attacks.
 func TestMonotonic(t *testing.T) {
 	startTime := time.Unix(0, 123456789) // a nontrivial bit pattern

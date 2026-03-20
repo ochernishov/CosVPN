@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package ipc
@@ -9,7 +9,7 @@ import (
 	"net"
 
 	"golang.org/x/sys/windows"
-	"golang.zx2c4.com/wireguard/ipc/namedpipe"
+	"github.com/ochernishov/cosvpn/ipc/namedpipe"
 )
 
 // TODO: replace these with actual standard windows error numbers from the win package
@@ -62,7 +62,7 @@ func init() {
 func UAPIListen(name string) (net.Listener, error) {
 	listener, err := (&namedpipe.ListenConfig{
 		SecurityDescriptor: UAPISecurityDescriptor,
-	}).Listen(`\\.\pipe\ProtectedPrefix\Administrators\WireGuard\` + name)
+	}).Listen(`\\.\pipe\ProtectedPrefix\Administrators\CosVPN\` + name)
 	if err != nil {
 		return nil, err
 	}

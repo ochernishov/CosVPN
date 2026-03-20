@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2017-2025 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
  */
 
 package device
@@ -10,8 +10,8 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/tun/tuntest"
+	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/tun/tuntest"
 )
 
 func TestCurveWrappers(t *testing.T) {
@@ -156,7 +156,7 @@ func TestNoiseHandshake(t *testing.T) {
 	t.Log("test key pairs")
 
 	func() {
-		testMsg := []byte("wireguard test message 1")
+		testMsg := []byte("cosvpn test message 1")
 		var err error
 		var out []byte
 		var nonce [12]byte
@@ -167,7 +167,7 @@ func TestNoiseHandshake(t *testing.T) {
 	}()
 
 	func() {
-		testMsg := []byte("wireguard test message 2")
+		testMsg := []byte("cosvpn test message 2")
 		var err error
 		var out []byte
 		var nonce [12]byte
