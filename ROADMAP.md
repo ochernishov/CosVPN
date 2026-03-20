@@ -1,7 +1,7 @@
 # CosVPN -- Дорожная карта ребрендинга и сборки клиентов
 
 > Дата создания: 2026-03-20
-> Сервер: 72.56.26.254:51820 (Ubuntu 22.04, WireGuard)
+> Сервер: 72.56.26.254:443 (Ubuntu 22.04, CosVPN)
 > Тестовый клиент: test-client1 (10.0.0.2)
 > Монорепо: https://github.com/ochernishov/CosVPN
 
@@ -215,3 +215,45 @@
 - Создать логотип CosVPN в векторном формате (SVG)
 - Экспортировать иконки для всех платформ из единого источника
 - Создать splash screen / launch screen дизайн
+
+---
+
+## ✅ Этап 5: CosVPN Protocol — Собственный протокол с обфускацией
+
+> Приоритет: КРИТИЧЕСКИЙ
+> Папка: CosVPN-Go/
+> Стек: Go 1.23+, crypto/tls, ChaCha20-Poly1305
+> Статус: ЗАВЕРШЁН
+
+### ✅ Блок 5.1 — Ребрендинг протокола
+
+- Все идентификаторы WireGuard → CosVPN (96 файлов)
+- Протокольные константы: CosVPNIdentifier, CosVPNLabelMAC1, CosVPNLabelCookie
+- Module path: github.com/ochernishov/cosvpn
+- Copyright: CosinnDev
+
+### ✅ Блок 5.2 — Пакет обфускации (obfs/)
+
+- XOR header obfuscation (первые 16 байт)
+- Random padding (0-64 байт)
+- Junk packet injection (30% вероятность)
+- 5 тестов — все PASS
+
+### ✅ Блок 5.3 — Интеграция в send/receive
+
+- ObfsConfig в Device struct
+- Обфускация перед UDP-отправкой (send.go)
+- Деобфускация при получении (receive.go)
+- UAPI: obfuscation_key, obfuscation_mode
+
+### ✅ Блок 5.4 — TLS 1.3 обёртка
+
+- TLSListener + TLSClient с самоподписанным ECDSA P-256
+- Framing: [2 bytes BE length][payload]
+- Минимальная версия TLS 1.3
+
+### ✅ Блок 5.5 — Деплой на сервер
+
+- Бинарник cosvpn-go задеплоен на 72.56.26.254
+- ObfuscationKey сгенерирован и сохранён
+- Порт: 443 (маскировка под HTTPS)
