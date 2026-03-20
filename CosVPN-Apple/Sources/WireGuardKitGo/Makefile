@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 #
-# Copyright (C) 2018-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+# Copyright (C) 2026 CosinnDev. Based on WireGuard by Jason A. Donenfeld.
 
 # These are generally passed to us by xcode, but we set working defaults for standalone compilation too.
 ARCHS ?= x86_64 arm64
@@ -13,7 +13,7 @@ export PATH := $(PATH):/usr/local/bin:/opt/homebrew/bin
 export CC ?= clang
 LIPO ?= lipo
 DESTDIR ?= $(CONFIGURATION_BUILD_DIR)
-BUILDDIR ?= $(CONFIGURATION_TEMP_DIR)/wireguard-go-bridge
+BUILDDIR ?= $(CONFIGURATION_TEMP_DIR)/cosvpn-go-bridge
 
 CFLAGS_PREFIX := $(if $(DEPLOYMENT_TARGET_CLANG_FLAG_NAME),-$(DEPLOYMENT_TARGET_CLANG_FLAG_NAME)=$($(DEPLOYMENT_TARGET_CLANG_ENV_NAME)),) -isysroot $(SDKROOT) -arch
 GOARCH_arm64 := arm64
@@ -22,7 +22,7 @@ GOOS_macosx := darwin
 GOOS_iphoneos := ios
 
 build: $(DESTDIR)/libwg-go.a
-version-header: $(DESTDIR)/wireguard-go-version.h
+version-header: $(DESTDIR)/cosvpn-go-version.h
 
 REAL_GOROOT := $(shell go env GOROOT 2>/dev/null)
 export GOROOT := $(BUILDDIR)/goroot
@@ -45,15 +45,15 @@ $(BUILDDIR)/libwg-go-$(1).a: $(GOROOT)/.prepared go.mod
 endef
 $(foreach ARCH,$(ARCHS),$(eval $(call libwg-go-a,$(ARCH))))
 
-$(DESTDIR)/wireguard-go-version.h: go.mod $(GOROOT)/.prepared
-	 sed -E -n 's/.*golang\.zx2c4\.com\/wireguard +v[0-9.]+-[0-9]+-([0-9a-f]{8})[0-9a-f]{4}.*/#define WIREGUARD_GO_VERSION "\1"/p' "$<" > "$@"
+$(DESTDIR)/cosvpn-go-version.h: go.mod $(GOROOT)/.prepared
+	 sed -E -n 's/.*github\.com\/ochernishov\/cosvpn +v[0-9.]+-[0-9]+-([0-9a-f]{8})[0-9a-f]{4}.*/#define COSVPN_GO_VERSION "\1"/p' "$<" > "$@"
 
 $(DESTDIR)/libwg-go.a: $(foreach ARCH,$(ARCHS),$(BUILDDIR)/libwg-go-$(ARCH).a)
 	@mkdir -vp "$(DESTDIR)"
 	$(LIPO) -create -output "$@" $^
 
 clean:
-	rm -rf "$(BUILDDIR)" "$(DESTDIR)/libwg-go.a" "$(DESTDIR)/wireguard-go-version.h"
+	rm -rf "$(BUILDDIR)" "$(DESTDIR)/libwg-go.a" "$(DESTDIR)/cosvpn-go-version.h"
 
 install: build
 

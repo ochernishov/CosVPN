@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  *
- * Copyright (C) 2018-2023 WireGuard LLC. All Rights Reserved.
+ * Copyright (C) 2026 CosinnDev. Based on WireGuard by WireGuard LLC.
+ * CosVPN Go Bridge
  */
 
 #ifndef WIREGUARD_H
