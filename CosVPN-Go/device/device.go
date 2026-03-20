@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/obfs"
 	"github.com/ochernishov/cosvpn/ratelimiter"
 	"github.com/ochernishov/cosvpn/rwcancel"
 	"github.com/ochernishov/cosvpn/tun"
@@ -85,6 +86,8 @@ type Device struct {
 		device tun.Device
 		mtu    atomic.Int32
 	}
+
+	obfsConfig obfs.ObfsConfig
 
 	ipcMutex sync.RWMutex
 	closed   chan struct{}
@@ -533,4 +536,12 @@ func (device *Device) BindClose() error {
 	err := closeBindLocked(device)
 	device.net.Unlock()
 	return err
+}
+
+func (device *Device) SetObfsConfig(config obfs.ObfsConfig) {
+	device.obfsConfig = config
+}
+
+func (device *Device) GetObfsConfig() obfs.ObfsConfig {
+	return device.obfsConfig
 }

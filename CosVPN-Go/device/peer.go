@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/obfs"
 )
 
 type Peer struct {
@@ -132,6 +133,22 @@ func (peer *Peer) SendBuffers(buffers [][]byte) error {
 		peer.endpoint.clearSrcOnTx = false
 	}
 	peer.endpoint.Unlock()
+
+	// Обфускация перед UDP-отправкой
+	if peer.device.obfsConfig.IsEnabled() {
+		// Junk injection
+		if obfs.ShouldSendJunk() {
+			junk := obfs.MakeJunkPacket(peer.device.obfsConfig.Key)
+			peer.device.net.bind.Send([][]byte{junk}, endpoint)
+		}
+		// Obfuscate each buffer
+		for i, buf := range buffers {
+			obfuscated, err := obfs.Obfuscate(buf, peer.device.obfsConfig.Key)
+			if err == nil {
+				buffers[i] = obfuscated
+			}
+		}
+	}
 
 	err := peer.device.net.bind.Send(buffers, endpoint)
 	if err == nil {

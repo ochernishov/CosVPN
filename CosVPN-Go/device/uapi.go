@@ -8,6 +8,7 @@ package device
 import (
 	"bufio"
 	"bytes"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
@@ -95,6 +96,11 @@ func (device *Device) IpcGetOperation(w io.Writer) error {
 
 		if device.net.fwmark != 0 {
 			sendf("fwmark=%d", device.net.fwmark)
+		}
+
+		if device.obfsConfig.IsEnabled() {
+			sendf("obfuscation_key=%s", base64.StdEncoding.EncodeToString(device.obfsConfig.Key[:]))
+			sendf("obfuscation_mode=%s", device.obfsConfig.Mode)
 		}
 
 		for _, peer := range device.peers.keyMap {
@@ -239,6 +245,26 @@ func (device *Device) handleDeviceLine(key, value string) error {
 		}
 		device.log.Verbosef("UAPI: Removing all peers")
 		device.RemoveAllPeers()
+
+	case "obfuscation_key":
+		keyBytes, err := base64.StdEncoding.DecodeString(value)
+		if err != nil {
+			return ipcErrorf(ipc.IpcErrorInvalid, "invalid obfuscation_key encoding")
+		}
+		if len(keyBytes) != 16 {
+			return ipcErrorf(ipc.IpcErrorInvalid, "obfuscation_key must be 16 bytes")
+		}
+		device.log.Verbosef("UAPI: Updating obfuscation key")
+		copy(device.obfsConfig.Key[:], keyBytes)
+
+	case "obfuscation_mode":
+		switch value {
+		case "auto", "direct", "tls":
+			device.log.Verbosef("UAPI: Updating obfuscation mode to %s", value)
+			device.obfsConfig.Mode = value
+		default:
+			return ipcErrorf(ipc.IpcErrorInvalid, "invalid obfuscation_mode: %s", value)
+		}
 
 	default:
 		return ipcErrorf(ipc.IpcErrorInvalid, "invalid UAPI device key: %v", key)

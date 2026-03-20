@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/ochernishov/cosvpn/conn"
+	"github.com/ochernishov/cosvpn/obfs"
 	"golang.org/x/crypto/chacha20poly1305"
 	"golang.org/x/net/ipv4"
 	"golang.org/x/net/ipv6"
@@ -134,6 +135,23 @@ func (device *Device) RoutineReceiveIncoming(maxBatchSize int, recv conn.Receive
 			// check size of packet
 
 			packet := bufsArrs[i][:size]
+
+			// Деобфускация при получении
+			if device.obfsConfig.IsEnabled() {
+				// Отбрасываем junk-пакеты
+				if obfs.IsJunkPacket(packet, device.obfsConfig.Key) {
+					continue
+				}
+				// Деобфускация
+				deobfuscated, err := obfs.Deobfuscate(packet, device.obfsConfig.Key)
+				if err != nil {
+					continue
+				}
+				copy(bufsArrs[i][:], deobfuscated)
+				packet = bufsArrs[i][:len(deobfuscated)]
+				size = len(deobfuscated)
+			}
+
 			msgType := binary.LittleEndian.Uint32(packet[:4])
 
 			switch msgType {
