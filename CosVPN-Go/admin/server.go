@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -40,8 +41,20 @@ func StartServer(addr, password, wgConfigDir string) {
 	mux.Handle("/", http.FileServer(http.FS(staticFS)))
 
 	eventLog.Add("settings", "", "Dashboard started")
-	log.Printf("CosVPN Dashboard starting on %s", addr)
-	if err := http.ListenAndServe(addr, mux); err != nil {
-		log.Printf("Dashboard error: %v", err)
+
+	// Check for TLS certificates
+	certFile := os.Getenv("COSVPN_TLS_CERT")
+	keyFile := os.Getenv("COSVPN_TLS_KEY")
+
+	if certFile != "" && keyFile != "" {
+		log.Printf("CosVPN Dashboard starting on %s (HTTPS)", addr)
+		if err := http.ListenAndServeTLS(addr, certFile, keyFile, mux); err != nil {
+			log.Printf("Dashboard HTTPS error: %v", err)
+		}
+	} else {
+		log.Printf("CosVPN Dashboard starting on %s (HTTP)", addr)
+		if err := http.ListenAndServe(addr, mux); err != nil {
+			log.Printf("Dashboard error: %v", err)
+		}
 	}
 }
